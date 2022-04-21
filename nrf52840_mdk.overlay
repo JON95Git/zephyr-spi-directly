@@ -1,0 +1,36 @@
+/*
+ * nRF52840_mdk 	SPI
+ *
+ * P0.27 			SCK
+ * P0.26 			MOSI
+ * P0.29 			MISO
+ * P0.25 			CS
+ */
+
+&pinctrl {
+	spi0_default: spi0_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 0, 27)>,
+				<NRF_PSEL(SPIM_MOSI, 0, 26)>,
+				<NRF_PSEL(SPIM_MISO, 0, 29)>;
+		};
+	};
+
+	spi0_sleep: spi0_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 0, 27)>,
+				<NRF_PSEL(SPIM_MOSI, 0, 26)>,
+				<NRF_PSEL(SPIM_MISO, 0, 29)>;
+			low-power-enable;
+		};
+	};
+};
+
+&spi0 {
+	compatible = "nordic,nrf-spi";
+	status = "okay";
+	pinctrl-0 = <&spi0_default>;
+	pinctrl-1 = <&spi0_sleep>;
+	cs-gpios = <&gpio0 25 GPIO_ACTIVE_LOW>;
+	pinctrl-names = "default", "sleep";
+};
