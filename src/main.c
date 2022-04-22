@@ -11,17 +11,18 @@ LOG_MODULE_REGISTER(app);
 
 #define SPI_MESSAGE 0xA5
 
-struct spi_cs_control spi_cs = {
-    .gpio_dev = DEVICE_DT_GET(DT_SPI_DEV_CS_GPIOS_CTLR(DT_NODELABEL(a))),
-    .gpio_pin = DT_SPI_DEV_CS_GPIOS_PIN(DT_NODELABEL(a)),
-    .gpio_dt_flags = DT_SPI_DEV_CS_GPIOS_FLAGS(DT_NODELABEL(a)),
-    .delay = 10,
-};
+// Defines another way to get CS pin configuration
+// struct spi_cs_control spi_cs = {
+//     .gpio_dev = DEVICE_DT_GET(DT_SPI_DEV_CS_GPIOS_CTLR(DT_NODELABEL(spidev))),
+//     .gpio_pin = DT_SPI_DEV_CS_GPIOS_PIN(DT_NODELABEL(spidev)),
+//     .gpio_dt_flags = DT_SPI_DEV_CS_GPIOS_FLAGS(DT_NODELABEL(spidev)),
+//     .delay = 10,
+// };
 
 const struct spi_config spi_cfg = {
     .frequency = DT_PROP(DT_NODELABEL(spi0), clock_frequency),
     .operation = SPI_OP_MODE_MASTER | SPI_TRANSFER_MSB | SPI_WORD_SET(8),
-    .cs = &spi_cs,
+    .cs = SPI_CS_CONTROL_PTR_DT(DT_NODELABEL(spidev), 10),
 };
 
 void main(void)
