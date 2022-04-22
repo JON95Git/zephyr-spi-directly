@@ -34,7 +34,8 @@
 	cs-gpios = <&gpio0 25 GPIO_ACTIVE_LOW>;
 	pinctrl-names = "default", "sleep";
 	clock-frequency = <20000000>;
-	a: spi-dev-a@0 {
+
+	spidev: spi-device@0 {
 		reg = <0>;
 	};
 };
